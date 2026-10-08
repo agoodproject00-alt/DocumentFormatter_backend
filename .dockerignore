@@ -1,0 +1,11 @@
+**/bin
+**/obj
+.vs
+.vscode
+.git
+*.user
+*.suo
+*.log
+
+documentformatter.client
+documentformatter.client/**

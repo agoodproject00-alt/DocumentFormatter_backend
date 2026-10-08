@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="DocumentFormatter.Application/DocumentFormatter.Application.csproj" />
+  <Project Path="documentformatter.client/documentformatter.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="DocumentFormatter.Domain/DocumentFormatter.Domain.csproj" />
+  <Project Path="DocumentFormatter.Infrastructure/DocumentFormatter.Infrastructure.csproj" />
+  <Project Path="DocumentFormatter.Server/DocumentFormatter.Server.csproj" />
+</Solution>

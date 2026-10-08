@@ -1,0 +1,65 @@
+@baseUrl = https://localhost:7096
+@chatId = replace-with-chat-guid
+@documentId = replace-with-document-guid
+@csrfToken = replace-with-token-from-csrf-endpoint
+
+### Get an antiforgery token
+GET {{baseUrl}}/api/auth/csrf
+
+### Search the first page of database-backed predefined formatting actions
+GET {{baseUrl}}/api/predefined-actions?search=format&page=1
+Cookie: .DocumentFormatter.Auth={{authCookie}}
+
+### Get the next page (four actions) for the same search
+GET {{baseUrl}}/api/predefined-actions?search=format&page=2
+Cookie: .DocumentFormatter.Auth={{authCookie}}
+
+### Generate a shared predefined action from an instruction
+POST {{baseUrl}}/api/predefined-actions
+Content-Type: application/json
+X-CSRF-TOKEN: {{csrfToken}}
+Cookie: .DocumentFormatter.Auth={{authCookie}}
+
+{
+  "text": "Create a concise executive summary that highlights the key findings and recommendations."
+}
+
+### Upload a document and create a conversation
+POST {{baseUrl}}/api/chats
+Content-Type: multipart/form-data; boundary=document-formatter-boundary
+X-CSRF-TOKEN: {{csrfToken}}
+Cookie: .DocumentFormatter.Auth={{authCookie}}
+
+--document-formatter-boundary
+Content-Disposition: form-data; name="document"; filename="sample.pdf"
+Content-Type: application/pdf
+
+< ./sample.pdf
+--document-formatter-boundary--
+
+### List the signed-in user's conversations
+GET {{baseUrl}}/api/chats
+Cookie: .DocumentFormatter.Auth={{authCookie}}
+
+### Restore one conversation and its document version metadata
+GET {{baseUrl}}/api/chats/{{chatId}}
+Cookie: .DocumentFormatter.Auth={{authCookie}}
+
+### Send an editing instruction
+POST {{baseUrl}}/api/chats/{{chatId}}/messages
+Content-Type: application/json
+X-CSRF-TOKEN: {{csrfToken}}
+Cookie: .DocumentFormatter.Auth={{authCookie}}
+
+{
+  "content": "Improve the clarity and formatting while preserving the author's tone."
+}
+
+### Delete a conversation and its stored documents
+DELETE {{baseUrl}}/api/chats/{{chatId}}
+X-CSRF-TOKEN: {{csrfToken}}
+Cookie: .DocumentFormatter.Auth={{authCookie}}
+
+### Download a stored original or edited document
+GET {{baseUrl}}/api/chats/{{chatId}}/documents/{{documentId}}
+Cookie: .DocumentFormatter.Auth={{authCookie}}

@@ -1,0 +1,31 @@
+# .NET
+**/bin/
+**/obj/
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Logs
+*.log
+logs/
+
+# Production secrets
+backend.env
+.env
+.env.*
+appsettings.Production.json
+
+# Backups
+*.backup
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker/runtime files
+docker-compose.override.yml
+
+# React frontend - maintained in separate repository
+documentformatter.client/
